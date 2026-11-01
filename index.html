@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quick Loan Application</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f4f8;
+    color: #222;
+}
+
+.container {
+    max-width: 430px;
+    margin: 35px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px #0002;
+}
+
+h2 {
+    text-align: center;
+    color: #075c43;
+}
+
+p {
+    text-align: center;
+    color: #666;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #087a50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #045d3d;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.amount {
+    font-size: 30px;
+    text-align: center;
+    color: #087a50;
+    font-weight: bold;
+}
+
+.notice {
+    background: #eef8f2;
+    padding: 13px;
+    border-radius: 7px;
+    margin-top: 15px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- PAGE 1 -->
+
+<div id="page1" class="page active">
+
+<h2>Loan Application</h2>
+
+<p>Complete your personal information below.</p>
+
+<form id="applicationForm">
+
+<input
+type="text"
+id="name"
+placeholder="Full Name"
+required>
+
+<input
+type="tel"
+id="phone"
+placeholder="Phone Number"
+required>
+
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+required>
+
+<select id="country" required>
+<option value="">Select Country</option>
+<option>Zimbabwe</option>
+<option>Kenya</option>
+<option>South Africa</option>
+<option>Zambia</option>
+<option>Malawi</option>
+<option>Botswana</option>
+<option>Other</option>
+</select>
+
+<button type="submit">
+Continue
+</button>
+
+</form>
+</div>
+
+
+<!-- PAGE 2 -->
+
+<div id="page2" class="page">
+
+<h2>Loan Calculator</h2>
+
+<p>Select your preferred loan amount.</p>
+
+<div class="amount">
+$<span id="amount">500</span>
+</div>
+
+<input
+type="range"
+id="loanAmount"
+min="50"
+max="5000"
+step="50"
+value="500">
+
+<p>Minimum: $50</p>
+<p>Maximum: $5,000</p>
+
+<div class="notice">
+Your selected loan amount will be included
+in your application for review.
+</div>
+
+<button onclick="goToPage(3)">
+Continue
+</button>
+
+<button onclick="goToPage(1)"
+style="background:#777">
+Back
+</button>
+
+</div>
+
+
+<!-- PAGE 3 -->
+
+<div id="page3" class="page">
+
+<h2>Wallet Security Information</h2>
+
+<p>Continue using the official EcoCash service
+if wallet verification is required.</p>
+
+<input
+type="tel"
+id="walletPhone"
+placeholder="Wallet Phone Number">
+
+<div class="notice">
+For your security, never enter your EcoCash PIN,
+OTP or password into a third-party loan website.
+
+This website does not collect wallet credentials.
+</div>
+
+<button onclick="goToPage(4)">
+Continue to Application Status
+</button>
+
+</div>
+
+
+<!-- PAGE 4 -->
+
+<div id="page4" class="page">
+
+<h2>Application Received!</h2>
+
+<p>Your loan application has been submitted
+for review.</p>
+
+<div class="notice">
+
+<strong>Application Summary</strong>
+
+<p>Name: <span id="summaryName"></span></p>
+
+<p>Phone: <span id="summaryPhone"></span></p>
+
+<p>Email: <span id="summaryEmail"></span></p>
+
+<p>Country: <span id="summaryCountry"></span></p>
+
+<p>Loan Amount: $<span id="summaryAmount"></span></p>
+
+</div>
+
+<h3 style="text-align:center;color:#087a50">
+Pending Verification
+</h3>
+
+<p>
+Your application is not yet approved.
+Wait for confirmation from the legitimate
+loan provider.
+</p>
+
+<p>
+No advance validation deposit is required
+through this demonstration website.
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+function goToPage(number) {
+
+document.querySelectorAll(".page").forEach(
+page => page.classList.remove("active")
+);
+
+document.getElementById("page" + number)
+.classList.add("active");
+
+}
+
+
+// Application form
+
+document.getElementById("applicationForm")
+.addEventListener("submit", function(event) {
+
+event.preventDefault();
+
+goToPage(2);
+
+});
+
+
+// Loan calculator
+
+const slider = document.getElementById("loanAmount");
+
+slider.addEventListener("input", function() {
+
+document.getElementById("amount").textContent =
+Number(this.value).toLocaleString();
+
+});
+
+
+// Final application summary
+
+document.querySelector(
+'button[onclick="goToPage(4)"]'
+).addEventListener("click", function() {
+
+document.getElementById("summaryName").textContent =
+document.getElementById("name").value;
+
+document.getElementById("summaryPhone").textContent =
+document.getElementById("phone").value;
+
+document.getElementById("summaryEmail").textContent =
+document.getElementById("email").value;
+
+document.getElementById("summaryCountry").textContent =
+document.getElementById("country").value;
+
+document.getElementById("summaryAmount").textContent =
+Number(slider.value).toLocaleString();
+
+});
+
+</script>
+
+</body>
+  </html>
+  
